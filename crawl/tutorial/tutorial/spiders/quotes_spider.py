@@ -11,13 +11,13 @@ def get_urls(filename):
 class QuotesSpider(scrapy.Spider):
     name = "quotes"
 
-    allowed_domains = ['http://www.bni.co.id/']
-    start_urls = get_urls("bni/bni_urls")
+    allowed_domains = ['http://www.bnisyariah.co.id/']
+    start_urls = get_urls("bni_syariah/bni_urls2")
 
-    # start_urls = ['http://www.bni.co.id/']
+    # start_urls = ['https://www.bnisyariah.co.id/id-id/']
 
     def parse(self, response):
-        # with open('bni_urls', 'a') as f:
+        # with open('bni_syariah/bni_urls2', 'a') as f:
         #     f.write("{}\n".format(response.xpath("//*/a/@href").extract()))
 
         items = PagesItem()

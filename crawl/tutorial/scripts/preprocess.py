@@ -987,7 +987,7 @@ if __name__ == '__main__':
 
     sentences = [line for line in sentences if len(line) > 1]
     
-    # temp = []
+    # temp = [] ## handle utf-8 prefix 
     # for line in sentences:
     #     if len(line) > 1:
     #         temp.extend([line[1:-1]] if line[:2] == 'b\'' else [line])
