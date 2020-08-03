@@ -4,7 +4,7 @@ import argparse
 import math
 import pandas as pd
 
-blank_token = "'***'"
+# blank_token = "'***'"
 
 def get_args():
     parser = argparse.ArgumentParser(description="Get content for each element in input",
@@ -28,10 +28,10 @@ def get_match_before(row_df_qa, df_diff):
 	are_correct = []
 	for i in range(len(df_diff)):
 		curr_row = df_diff.iloc[i]
-		if (curr_row['ID'] == row_df_qa['ID']) or (row_df_qa['ID'].strip() == 'all'):
-			if curr_row['Before'] == row_df_qa['Kata yang salah']:
+		if (curr_row['ID'].strip() == row_df_qa['ID'].strip()) or (row_df_qa['ID'].strip() == 'all'):
+			if row_df_qa['Kata yang salah'].strip() == curr_row['Before'].strip():
 				idxs.append(i)
-				are_correct.extend([1] if curr_row['After'] == row_df_qa['Perbaikan'] else [0])
+				are_correct.extend([1] if curr_row['After'].strip() == row_df_qa['Perbaikan'].strip() else [0])
 
 	return idxs, are_correct
 
@@ -48,20 +48,25 @@ if __name__ == '__main__':
 		for i in range(len(qa_logs)):
 			curr_row = qa_logs.iloc[i]
 
-			if type(curr_row['Perbaikan']) != float:
+			if type(curr_row['Perbaikan']) != float: # If NaN, check manually
 				# if curr_row['Kata yang salah'] != blank_token:
 				# 	if curr_row['Perbaikan'] != blank_token:
 
 				idxs, are_correct = get_match_before(curr_row, df_diff)
-				for j in range(len(are_correct)):
-					if are_correct[j] == 0:
-						f.write("(In)correct correction ({}). In QA logs: {}, but in new version: {}. Please check it again\n"\
-							.format(curr_row['ID'], curr_row['Perbaikan'] , df_diff.iloc[idxs[j]]['After']))
-						print("(In)correct correction")
-					else:
-						f.write("Correct correction ({}). In QA logs & new version: {}\n"\
-							.format(curr_row['ID'], curr_row['Perbaikan']))
-						print("Correct correction")
+				if len(are_correct) > 0:
+					for j in range(len(are_correct)):
+						if are_correct[j] == 0:
+							f.write("(In)correct correction ({}). In QA logs: \"{}\", but in new version: \"{}\". Please check it again\n"\
+								.format(curr_row['ID'], curr_row['Perbaikan'] , df_diff.iloc[idxs[j]]['After']))
+							print("(In)correct correction")
+						else:
+							f.write("Correct correction ({}). In QA logs & new version: \"{}\"\n"\
+								.format(curr_row['ID'], curr_row['Perbaikan']))
+							print("Correct correction")
+				else:
+					### case tidak ditemukan kata di before, kata lebih dari satu token, atau belum dikoreksi
+					f.write("Not exist \"{}\" on ({}) or it didn't corrected in new version as \"{}\"\n".format(curr_row['Kata yang salah'], curr_row['ID'], curr_row['Perbaikan']))
+					print("Not exist")
 				# 	else:
 				# 		f.write("Deletion on ({}): {}. Please check it manually\n".format(curr_row['ID'], curr_row['Kata yang salah']))
 				# 		print("Deletion")
@@ -69,5 +74,7 @@ if __name__ == '__main__':
 				# 	f.write("Insertion on ({}): {}. Please check it manually\n".format(curr_row['ID'], curr_row['Perbaikan']))
 				# 	print("Insertion")
 			else:
-				f.write("Please check it manually ({}) about: {}\n".format(curr_row['ID'], curr_row['Kata yang salah']))
+				f.write("Please check it manually ({}) about: \"{}\"\n".format(curr_row['ID'], curr_row['Kata yang salah']))
 				print("Please check")
+
+	print("[INFO] Please check the logs in: {}".format(args.output))

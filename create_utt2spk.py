@@ -9,14 +9,14 @@ if __name__ == '__main__':
 	in_file = sys.argv[1]
 	out_file = sys.argv[2]
 	# digit_id = int(sys.argv[3])
-	regex_id = sys.argv[3]
+	id_regex = sys.argv[3]
 
 	utterances = []
 	temp_file = open(in_file, 'r')
 	for utt in temp_file:
 		id_utt = utt.split()[0]
 		# utterances.append(id_utt + ' ' + id_utt[:digit_id] + '\n')
-		spk_id = re.search(regex_id, id_utt).group()
+		spk_id = re.search(id_regex, id_utt).group()
 		utterances.append(id_utt + ' ' + spk_id + '\n')
 
 	temp_file.close()

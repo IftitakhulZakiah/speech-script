@@ -6,7 +6,7 @@ def get_args():
     parser = argparse.ArgumentParser(description="Comparing the previous and current version of text",
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("per_utt", type=str, metavar="Per_utt format with the prev version as hyp and current version as ref ")
-    parser.add_argument("out_text", type=str, metavar="The output diff text")
+    parser.add_argument("out_text", type=str, metavar="The CSV output diff text")
     
     return parser.parse_args()
 
@@ -48,11 +48,9 @@ if __name__ == '__main__':
 	idxs = diff_utts.keys()
 	file.write("ID,Before,After\n")
 	for idx in idxs:
-		# file.write(idx + '\n')
 		temp = diff_utts[idx]
 		for diff in temp:
 			file.write("{},{}\n".format(idx,diff))
-		# file.write('\n')
 	file.close()
 
 	print("[INFO] The difference before after version already written on {}".format(args.out_text))
