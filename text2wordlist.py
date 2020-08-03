@@ -7,7 +7,7 @@ def get_args():
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("infile", type=str, metavar="The text path file")
     parser.add_argument("outfile", type=str, metavar="The wordlist path file")
-    parser.add_argument("is_transcript", type=bool, metavar="Is the infile transcript formatted?")
+    parser.add_argument("--is_transcript", type=bool, metavar="Is the infile transcript formatted?")
     
     return parser.parse_args()
 
@@ -16,11 +16,11 @@ if __name__ == '__main__':
 	file = open(args.infile, 'r')
 	all_text = ''
 	for line in file:
-		if args.is_transcript:
+		if (args.is_transcript == 1):
 			idx = line.split()[0] # get the id audio
 			text = line.replace(idx, '').strip() + ' '
 		else:
-			text = line.strip()
+			text = line + ' '
 		all_text += text
 	file.close()
 	

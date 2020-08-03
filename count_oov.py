@@ -8,7 +8,7 @@ def get_args():
     parser.add_argument("input", type=str, metavar="input text file")
     parser.add_argument("output", type=str, metavar="the oov tokens")
     parser.add_argument("lexicon", type=str, metavar="lexicon comparison")
-    parser.add_argument("is_transcript", type=bool, metavar="is the input text used transcript format?")
+    parser.add_argument("--is_transcript", type=bool, metavar="is the input text used transcript format?")
     
     return parser.parse_args()
 
