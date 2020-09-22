@@ -34,7 +34,7 @@ def parse_csv_to_per_idx(csv_path):
 			if parts[1] == "<overlap>":
 				del idx_to_cmps[idx]
 				continue
-
+			
 			idx_to_cmps[idx].append(normalize(parts[1:]))
 
 	return idx_to_cmps, skipped_idxs
