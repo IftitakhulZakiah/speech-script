@@ -31,7 +31,7 @@ if __name__ == '__main__':
 		if id_utt in id_files:
 			utterances.append(id_utt + ' ' + waves_file_path[id_utt]+ '\n')
 		else:
-			# print(id_utt, ' not exist in wav')
+			print(id_utt, ' not exist in wav')
 			pass
 			
 	temp_file.close()

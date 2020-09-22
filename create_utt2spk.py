@@ -16,6 +16,7 @@ if __name__ == '__main__':
 	for utt in temp_file:
 		id_utt = utt.split()[0]
 		# utterances.append(id_utt + ' ' + id_utt[:digit_id] + '\n')
+		print(id_utt)
 		spk_id = re.search(id_regex, id_utt).group()
 		utterances.append(id_utt + ' ' + spk_id + '\n')
 
